@@ -43,6 +43,7 @@ const Sidebar = (props) => {
 
   return (
     <div className='sidebar'>
+      <h1 className="ecommunity">Eco.mmunity</h1>
       <h2 className="sidebarHeading">Green initiatives near you</h2>
       <button className="sidebar__filterButton">Filter your results</button>
       <List
