@@ -6,7 +6,17 @@ const AWS = require('aws-sdk');
 
 
 const USERS_TABLE = process.env.USERS_TABLE;
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const IS_OFFLINE = process.env.IS_OFFLINE;
+let dynamoDb;
+if (IS_OFFLINE === 'true') {
+  dynamoDb = new AWS.DynamoDB.DocumentClient({
+    region: 'localhost',
+    endpoint: 'http://localhost:8000'
+  })
+  console.log(dynamoDb);
+} else {
+  dynamoDb = new AWS.DynamoDB.DocumentClient();
+};
 
 app.use(bodyParser.json({ strict: false }));
 
@@ -14,34 +24,59 @@ app.get('/', function (req, res) {
   res.send('Hello World!')
 })
 
-// Get User endpoint
-app.get('/users/:userId', function (req, res) {
+// Get places by category
+app.get('/categories/:category', function (req, res) {
   const params = {
     TableName: USERS_TABLE,
-    Key: {
-      userId: req.params.userId,
-    },
+    FilterExpression: 'category = :hkey',
+    ExpressionAttributeValues: {
+      ':hkey': req.params.category
+    }
   }
 
-  dynamoDb.get(params, (error, result) => {
+  dynamoDb.scan(params, (error, result) => {
     if (error) {
       console.log(error);
-      res.status(400).json({ error: 'Could not get user' });
+      res.status(400).json({ error: error });
     }
-    if (result.Item) {
-      const {userId, name} = result.Item;
-      res.json({ userId, name });
+  
+    if (result && result.Items) {
+      res.json(result.Items);
     } else {
-      res.status(404).json({ error: "User not found" });
+      res.status(404).json({ error: "Category not found" });
     }
   });
 })
 
-// Create User endpoint
-app.post('/users', function (req, res) {
-  const { userId, name } = req.body;
-  if (typeof userId !== 'string') {
-    res.status(400).json({ error: '"userId" must be a string' });
+// Get places by category
+app.get('/categories', function (req, res) {
+  const params = {
+    TableName: USERS_TABLE,
+    // FilterExpression: 'category = :hkey',
+    // ExpressionAttributeValues: {
+    //   ':hkey': req.params.category
+    // }
+  }
+
+  dynamoDb.scan(params, (error, result) => {
+    if (error) {
+      console.log(error);
+      res.status(400).json({ error: error });
+    }
+  
+    if (result && result.Items) {
+      res.json(result.Items);
+    } else {
+      res.status(404).json({ error: "Category not found" });
+    }
+  });
+})
+
+// Create categories
+app.post('/categories', function (req, res) {
+  const { category, name, address, description, latitude, longitude } = req.body;
+  if (typeof category !== 'string') {
+    res.status(400).json({ error: '"category" must be a string' });
   } else if (typeof name !== 'string') {
     res.status(400).json({ error: '"name" must be a string' });
   }
@@ -49,17 +84,21 @@ app.post('/users', function (req, res) {
   const params = {
     TableName: USERS_TABLE,
     Item: {
-      userId: userId,
+      category: category,
       name: name,
+      description: description,
+      latitude: latitude,
+      longitude: longitude,
+      address: address
     },
   };
 
   dynamoDb.put(params, (error) => {
     if (error) {
       console.log(error);
-      res.status(400).json({ error: 'Could not create user' });
+      res.status(400).json({ error: 'Could not create category' });
     }
-    res.json({ userId, name });
+    res.json({ category, name });
   });
 })
 
