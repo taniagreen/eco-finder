@@ -7,6 +7,7 @@ import Sidebar from './components/sidebar/Sidebar';
 
 const axios = require('axios');
 
+
 const fetchPlaces = () => {
   axios.get('https://k38vjgr50a.execute-api.us-east-1.amazonaws.com/dev/categories')
   .then(function (response) {

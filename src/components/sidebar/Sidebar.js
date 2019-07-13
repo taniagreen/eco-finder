@@ -57,7 +57,9 @@ const Sidebar = (props) => {
 
 
   return (
-    <div>
+    <div className='sidebar'>
+      Green initiatives near you
+      <button>Filter your results</button>
       <List
         className="root"
       >
