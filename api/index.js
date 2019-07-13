@@ -59,6 +59,8 @@ app.get('/categories', function (req, res) {
   }
 
   dynamoDb.scan(params, (error, result) => {
+    res.set('Access-Control-Allow-Origin','*');
+    res.set('Access-Control-Allow-Credentials',true);
     if (error) {
       console.log(error);
       res.status(400).json({ error: error });
