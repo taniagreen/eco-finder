@@ -4,7 +4,8 @@ import './sidebar.css';
 const Sidebar = () => {
   return (
     <div className='sidebar'>
-      This is the sidebar.
+      Green initiatives near you
+      <button>Filter your results</button>
     </div>    
   )
 }
