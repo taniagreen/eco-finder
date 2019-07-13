@@ -1,5 +1,5 @@
 import React from 'react';
-// import logo from './images/eco-finder-logo.ico';
+import logo from './images/eco-finder-logo.ico';
 import './App.css';
 
 import MapContainer from './components/map/MapContainer';
