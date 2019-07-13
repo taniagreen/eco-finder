@@ -3,11 +3,14 @@
   width: 30%;
   background-color: aquamarine;
   flex: 1;
+  padding: 1rem;
+  flex-direction: column;
+
 }
 
 .root {
   width: 100%;
-  max-width: 360px;
+  /* max-width: 360px; */
   background-color: #ffffff;
 }
 
