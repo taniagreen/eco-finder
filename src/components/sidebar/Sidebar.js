@@ -28,7 +28,7 @@ const Sidebar = (props) => {
                   className="inline"
                   color="textPrimary"
                 >
-                  {item.name}
+                  {`${item.name} - `}
                 </Typography>
                 {item.category}
               </React.Fragment>
@@ -43,8 +43,8 @@ const Sidebar = (props) => {
 
   return (
     <div className='sidebar'>
-      Green initiatives near you
-      <button>Filter your results</button>
+      <h2 className="sidebarHeading">Green initiatives near you</h2>
+      <button className="sidebar__filterButton">Filter your results</button>
       <List
         className="root"
       >
