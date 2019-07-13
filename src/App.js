@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './images/eco-finder-logo.ico';
+// import logo from './images/eco-finder-logo.ico';
 import './App.css';
 
 import MapContainer from './components/map/MapContainer';
@@ -21,6 +21,7 @@ const fetchPlaces = () => {
 
 function App() {
   const data = fetchPlaces();
+  console.log(data);
 
   return (
     <div className="App">
@@ -30,8 +31,10 @@ function App() {
           Eco Finder
         </p>
       </header> */}
-      <MapContainer data={data} />
-      <Sidebar data={data} />
+      <MapContainer />
+      <Sidebar
+        items={data}
+      />
     </div>
   );
 }

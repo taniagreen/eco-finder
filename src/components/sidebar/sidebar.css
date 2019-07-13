@@ -4,3 +4,13 @@
   background-color: aquamarine;
   flex: 1;
 }
+
+.root {
+  width: 100%;
+  max-width: 360px;
+  background-color: #ffffff;
+}
+
+.inline {
+  display: inline;
+}
